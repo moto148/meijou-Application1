@@ -9,8 +9,8 @@
 
     <TextView
         android:id="@+id/text"
-        android:layout_width="214dp"
-        android:layout_height="98dp"
+        android:layout_width="311dp"
+        android:layout_height="60dp"
         android:text="moto"
         tools:layout_editor_absoluteX="38dp"
         tools:layout_editor_absoluteY="16dp" />
