@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">My Application1</string>
     <string name="text">moto</string>
-    <string name="text1"/>
+    <string name="text1" />
 </resources>
