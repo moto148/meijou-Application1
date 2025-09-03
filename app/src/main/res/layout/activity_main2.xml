@@ -24,7 +24,7 @@
         android:layout_marginEnd="88dp"
         android:text="ボタンB"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopof="@+id/A"
+        app:layout_constraintTop_toBottomof="@+id/A"
         tools:layout_editor_absoluteY="39dp" />
 
     <TextView
