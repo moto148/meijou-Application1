@@ -4,10 +4,12 @@ import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
@@ -57,6 +59,15 @@ public class MainActivity10 extends AppCompatActivity {
             manager.createNotificationChannel(channel);
         }
 
+        // ✅ Android 12 以降の正確なアラーム権限チェック
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            if (!alarmManager.canScheduleExactAlarms()) {
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                startActivity(intent);
+            }
+        }
+
         // ✅ ボタンを押してアラーム設定
         binding.timesetbutton.setOnClickListener(view -> {
             int hour = Integer.parseInt(binding.editTextText6.getText().toString());
@@ -73,11 +84,11 @@ public class MainActivity10 extends AppCompatActivity {
                 calendar.add(Calendar.DAY_OF_MONTH, 1);
             }
 
+            // アラームセット（本番用のみ）
             Intent intent = new Intent(this, AlarmReceiver.class);
-            int requestCode = (int) System.currentTimeMillis(); // ユニークID
+            intent.setAction("NORMAL_ALARM"); // ← 区別用
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
                     this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
 
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             if (alarmManager != null) {
@@ -86,9 +97,8 @@ public class MainActivity10 extends AppCompatActivity {
                         calendar.getTimeInMillis(),
                         pendingIntent
                 );
+                Log.d("MainActivity10", "本番アラームをセットしました: " + calendar.getTime());
             }
-            Log.d("MainActivity10", "Alarm set for: " + calendar.getTime());
-
         });
 
     }
